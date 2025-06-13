@@ -8,6 +8,11 @@ export const cosmic = createBucketClient({
   apiEnvironment: "staging"
 })
 
+// Type guard to check if error has status property
+function isCosmicError(error: unknown): error is { status: number } {
+  return typeof error === 'object' && error !== null && 'status' in error
+}
+
 // Get all videos with related data
 export async function getAllVideos(): Promise<Video[]> {
   try {
@@ -17,8 +22,8 @@ export async function getAllVideos(): Promise<Video[]> {
       .depth(1)
     
     return response.objects as Video[]
-  } catch (error) {
-    if (error.status === 404) {
+  } catch (error: unknown) {
+    if (isCosmicError(error) && error.status === 404) {
       return []
     }
     throw error
@@ -34,8 +39,8 @@ export async function getVideoBySlug(slug: string): Promise<Video | null> {
     }).depth(1)
     
     return response.object as Video
-  } catch (error) {
-    if (error.status === 404) {
+  } catch (error: unknown) {
+    if (isCosmicError(error) && error.status === 404) {
       return null
     }
     throw error
@@ -54,8 +59,8 @@ export async function getVideosByChannel(channelId: string): Promise<Video[]> {
       .depth(1)
     
     return response.objects as Video[]
-  } catch (error) {
-    if (error.status === 404) {
+  } catch (error: unknown) {
+    if (isCosmicError(error) && error.status === 404) {
       return []
     }
     throw error
@@ -74,8 +79,8 @@ export async function getVideosByCategory(categoryIds: string[]): Promise<Video[
       .depth(1)
     
     return response.objects as Video[]
-  } catch (error) {
-    if (error.status === 404) {
+  } catch (error: unknown) {
+    if (isCosmicError(error) && error.status === 404) {
       return []
     }
     throw error
@@ -91,8 +96,8 @@ export async function getAllChannels(): Promise<Channel[]> {
       .depth(1)
     
     return response.objects as Channel[]
-  } catch (error) {
-    if (error.status === 404) {
+  } catch (error: unknown) {
+    if (isCosmicError(error) && error.status === 404) {
       return []
     }
     throw error
@@ -108,8 +113,8 @@ export async function getChannelBySlug(slug: string): Promise<Channel | null> {
     }).depth(1)
     
     return response.object as Channel
-  } catch (error) {
-    if (error.status === 404) {
+  } catch (error: unknown) {
+    if (isCosmicError(error) && error.status === 404) {
       return null
     }
     throw error
@@ -125,8 +130,8 @@ export async function getAllCategories(): Promise<Category[]> {
       .depth(1)
     
     return response.objects as Category[]
-  } catch (error) {
-    if (error.status === 404) {
+  } catch (error: unknown) {
+    if (isCosmicError(error) && error.status === 404) {
       return []
     }
     throw error
@@ -146,8 +151,8 @@ export async function getCommentsByVideo(videoId: string): Promise<Comment[]> {
       .depth(1)
     
     return response.objects as Comment[]
-  } catch (error) {
-    if (error.status === 404) {
+  } catch (error: unknown) {
+    if (isCosmicError(error) && error.status === 404) {
       return []
     }
     throw error
@@ -175,7 +180,7 @@ export async function createComment(commentData: {
     })
     
     return response.object as Comment
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error creating comment:', error)
     throw new Error('Failed to create comment')
   }
@@ -190,8 +195,8 @@ export async function getSiteSettings(): Promise<Settings | null> {
     })
     
     return response.object as Settings
-  } catch (error) {
-    if (error.status === 404) {
+  } catch (error: unknown) {
+    if (isCosmicError(error) && error.status === 404) {
       return null
     }
     throw error
