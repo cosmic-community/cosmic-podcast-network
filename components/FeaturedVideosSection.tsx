@@ -24,9 +24,9 @@ export default function FeaturedVideosSection({ videos, categories, maxVideos = 
       
       // Handle both single category and array of categories
       if (Array.isArray(video.metadata.categories)) {
-        return video.metadata.categories.some((cat: any) => cat.id === selectedCategory)
+        return video.metadata.categories.some((cat: Category) => cat.id === selectedCategory)
       } else {
-        return video.metadata.categories.id === selectedCategory
+        return (video.metadata.categories as Category).id === selectedCategory
       }
     })
   }, [videos, selectedCategory])

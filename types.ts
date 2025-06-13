@@ -25,6 +25,7 @@ export interface Video extends CosmicObject {
       imgix_url: string;
     };
     description?: string;
+    featured?: boolean;
     categories?: Category[];
     channel?: Channel;
   };
