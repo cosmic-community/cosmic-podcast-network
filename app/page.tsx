@@ -2,15 +2,19 @@ import { getAllVideos, getAllChannels, getAllCategories, getSiteSettings } from 
 import Hero from '@/components/Hero'
 import VideoGrid from '@/components/VideoGrid'
 import ChannelList from '@/components/ChannelList'
-import CategoryFilter from '@/components/CategoryFilter'
+import FeaturedVideosSection from '@/components/FeaturedVideosSection'
 
 export default async function HomePage() {
   const [videos, channels, categories, settings] = await Promise.all([
     getAllVideos(),
     getAllChannels(),
-    getAllCategories(),
+    getAllCategories(),  
     getSiteSettings()
   ])
+
+  // Filter for featured videos (assuming there's a featured field in metadata)
+  const featuredVideos = videos.filter(video => video.metadata?.featured === true)
+  const displayVideos = featuredVideos.length > 0 ? featuredVideos : videos
 
   return (
     <div className="min-h-screen bg-gray-50">      
@@ -18,28 +22,11 @@ export default async function HomePage() {
       
       <main className="container py-12">
         {/* Featured Videos Section */}
-        <section className="mb-16">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">Featured Videos</h2>
-              <p className="text-gray-600">Discover the latest and greatest content</p>
-            </div>
-            <CategoryFilter categories={categories} />
-          </div>
-          
-          <VideoGrid videos={videos.slice(0, 6)} />
-          
-          {videos.length > 6 && (
-            <div className="text-center mt-8">
-              <a 
-                href="/videos"
-                className="btn btn-secondary"
-              >
-                View All Videos
-              </a>
-            </div>
-          )}
-        </section>
+        <FeaturedVideosSection 
+          videos={displayVideos} 
+          categories={categories}
+          maxVideos={6}
+        />
 
         {/* Channels Section */}
         <section className="mb-16">

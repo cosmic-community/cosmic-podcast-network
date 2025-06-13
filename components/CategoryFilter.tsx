@@ -6,13 +6,18 @@ import { Category } from '@/types'
 interface CategoryFilterProps {
   categories: Category[]
   onFilter?: (categoryId: string | null) => void
+  selectedCategory?: string | null
 }
 
-export default function CategoryFilter({ categories, onFilter }: CategoryFilterProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+export default function CategoryFilter({ categories, onFilter, selectedCategory: externalSelectedCategory }: CategoryFilterProps) {
+  const [internalSelectedCategory, setInternalSelectedCategory] = useState<string | null>(null)
+  
+  const selectedCategory = externalSelectedCategory !== undefined ? externalSelectedCategory : internalSelectedCategory
   
   const handleCategoryClick = (categoryId: string | null) => {
-    setSelectedCategory(categoryId)
+    if (externalSelectedCategory === undefined) {
+      setInternalSelectedCategory(categoryId)
+    }
     onFilter?.(categoryId)
   }
   
