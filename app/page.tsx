@@ -1,10 +1,8 @@
 import { getAllVideos, getAllChannels, getAllCategories, getSiteSettings } from '@/lib/cosmic'
-import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import VideoGrid from '@/components/VideoGrid'
 import ChannelList from '@/components/ChannelList'
 import CategoryFilter from '@/components/CategoryFilter'
-import Footer from '@/components/Footer'
 
 export default async function HomePage() {
   const [videos, channels, categories, settings] = await Promise.all([
@@ -15,9 +13,7 @@ export default async function HomePage() {
   ])
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header settings={settings} />
-      
+    <div className="min-h-screen bg-gray-50">      
       <Hero settings={settings} />
       
       <main className="container py-12">
@@ -66,8 +62,6 @@ export default async function HomePage() {
           )}
         </section>
       </main>
-      
-      <Footer settings={settings} />
     </div>
   )
 }
