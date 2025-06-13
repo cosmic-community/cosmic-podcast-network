@@ -5,7 +5,7 @@ export interface CosmicObject {
   title: string;
   content?: string;
   metadata: Record<string, any>;
-  type_slug: string;
+  type: string;
   created_at: string;
   modified_at: string;
   status?: string;
@@ -14,7 +14,7 @@ export interface CosmicObject {
 
 // Video interface
 export interface Video extends CosmicObject {
-  type_slug: 'videos';
+  type: 'videos';
   metadata: {
     thumbnail?: {
       url: string;
@@ -32,7 +32,7 @@ export interface Video extends CosmicObject {
 
 // Channel interface
 export interface Channel extends CosmicObject {
-  type_slug: 'channels';
+  type: 'channels';
   metadata: {
     thumbnail?: {
       url: string;
@@ -48,7 +48,7 @@ export interface Channel extends CosmicObject {
 
 // Category interface
 export interface Category extends CosmicObject {
-  type_slug: 'categories';
+  type: 'categories';
   metadata: {
     emoji?: string;
   };
@@ -56,7 +56,7 @@ export interface Category extends CosmicObject {
 
 // Comment interface
 export interface Comment extends CosmicObject {
-  type_slug: 'comments';
+  type: 'comments';
   metadata: {
     approved?: boolean;
     email?: string;
@@ -68,7 +68,7 @@ export interface Comment extends CosmicObject {
 
 // User interface
 export interface User extends CosmicObject {
-  type_slug: 'users';
+  type: 'users';
   metadata: {
     avatar?: {
       url: string;
@@ -90,7 +90,7 @@ export interface User extends CosmicObject {
 
 // Settings interface
 export interface Settings extends CosmicObject {
-  type_slug: 'settings';
+  type: 'settings';
   metadata: {
     site_title?: string;
     tagline?: string;
@@ -108,27 +108,27 @@ export interface CosmicResponse<T> {
 
 // Type guards
 export function isVideo(obj: CosmicObject): obj is Video {
-  return obj.type_slug === 'videos';
+  return obj.type === 'videos';
 }
 
 export function isChannel(obj: CosmicObject): obj is Channel {
-  return obj.type_slug === 'channels';
+  return obj.type === 'channels';
 }
 
 export function isCategory(obj: CosmicObject): obj is Category {
-  return obj.type_slug === 'categories';
+  return obj.type === 'categories';
 }
 
 export function isComment(obj: CosmicObject): obj is Comment {
-  return obj.type_slug === 'comments';
+  return obj.type === 'comments';
 }
 
 export function isUser(obj: CosmicObject): obj is User {
-  return obj.type_slug === 'users';
+  return obj.type === 'users';
 }
 
 export function isSettings(obj: CosmicObject): obj is Settings {
-  return obj.type_slug === 'settings';
+  return obj.type === 'settings';
 }
 
 // Utility types
