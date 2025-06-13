@@ -12,8 +12,8 @@ async function getChannel(slug: string): Promise<Channel | null> {
     const response = await cosmic.objects
       .findOne({ type: 'channels', slug });
     return response.object as Channel;
-  } catch (error) {
-    if (error.status === 404) {
+  } catch (error: any) {
+    if (error?.status === 404) {
       return null;
     }
     throw error;
@@ -30,8 +30,8 @@ async function getChannelVideos(channelId: string): Promise<Video[]> {
       .props(['id', 'title', 'slug', 'metadata'])
       .depth(1);
     return response.objects as Video[];
-  } catch (error) {
-    if (error.status === 404) {
+  } catch (error: any) {
+    if (error?.status === 404) {
       return [];
     }
     throw error;

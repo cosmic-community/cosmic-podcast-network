@@ -8,9 +8,9 @@ async function getChannels(): Promise<Channel[]> {
       .find({ type: 'channels' })
       .props(['id', 'title', 'slug', 'metadata']);
     return response.objects as Channel[];
-  } catch (error) {
+  } catch (error: any) {
     // Handle empty results
-    if (error.status === 404) {
+    if (error?.status === 404) {
       return [];
     }
     throw error;

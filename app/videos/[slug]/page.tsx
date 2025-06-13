@@ -13,8 +13,8 @@ async function getVideo(slug: string): Promise<Video | null> {
       .findOne({ type: 'videos', slug })
       .depth(1);
     return response.object as Video;
-  } catch (error) {
-    if (error.status === 404) {
+  } catch (error: any) {
+    if (error?.status === 404) {
       return null;
     }
     throw error;
@@ -31,8 +31,8 @@ async function getVideoComments(videoId: string): Promise<Comment[]> {
       })
       .depth(1);
     return response.objects as Comment[];
-  } catch (error) {
-    if (error.status === 404) {
+  } catch (error: any) {
+    if (error?.status === 404) {
       return [];
     }
     throw error;

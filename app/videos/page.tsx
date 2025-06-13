@@ -10,9 +10,9 @@ async function getVideos(): Promise<Video[]> {
       .props(['id', 'title', 'slug', 'metadata'])
       .depth(1);
     return response.objects as Video[];
-  } catch (error) {
+  } catch (error: any) {
     // Handle empty results
-    if (error.status === 404) {
+    if (error?.status === 404) {
       return [];
     }
     throw error;
@@ -25,9 +25,9 @@ async function getCategories(): Promise<Category[]> {
       .find({ type: 'categories' })
       .props(['id', 'title', 'slug', 'metadata']);
     return response.objects as Category[];
-  } catch (error) {
+  } catch (error: any) {
     // Handle empty results
-    if (error.status === 404) {
+    if (error?.status === 404) {
       return [];
     }
     throw error;
